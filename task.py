@@ -2,24 +2,35 @@ import math
 
 clicks_a, n_a = 350, 2574
 clicks_b, n_b = 375, 2855
+
+# Расчёт конверсий
 p_a = clicks_a / n_a
 p_b = clicks_b / n_b
 
+# Относительная разница конверсий
+relative_diff = (p_b - p_a) / p_a
+
+# Объединённая доля для статистического теста
 p_pool = (clicks_a + clicks_b) / (n_a + n_b)
 
+# Стандартная ошибка
 se = math.sqrt(p_pool * (1 - p_pool) * (1/n_a + 1/n_b))
 
+# Z-статистика
 z = (p_b - p_a) / se
 
-
-p_value = 2 * (1 - 0.5 * (1 + math.erf(abs(z) / math.sqrt(2))))
+# P-value двустороннего z-теста
+p_value = math.erfc(abs(z) / math.sqrt(2))
 
 print(f"Конверсия A: {p_a:.2%}")
 print(f"Конверсия B: {p_b:.2%}")
-print(f"z-статистика: {z:.4f}")
+print(f"Относительная разница (B к A): {relative_diff:.2%}")
+print(f"Z-статистика: {z:.4f}")
 print(f"P-value: {p_value:.4f}")
 
-if p_value < 0.05:
+alpha = 0.05
+
+if p_value < alpha:
     print("Разница статистически значима")
 else:
-    print("Разница не статистически значима - оставляем вариант А")
+    print("Статистически значимое различие не обнаружено")
