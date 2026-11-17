@@ -13,7 +13,7 @@ with top_clients as (
     order by sum(sum_tran) desc
     limit 100
 )
-select tt.id_client, date_trunc('month', t.tran_time) as month, sum(t.sum_tran) as spend from transact t
+select t.id_client, date_trunc('month', t.tran_time) as month, sum(t.sum_tran) as spend from transact t
 join top_clients tc on t.id_client = tc.id_client
 group by t.id_client, date_trunc('month', t.tran_time)
 order by t.id_client, month;
