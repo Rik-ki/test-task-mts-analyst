@@ -3,23 +3,17 @@ import math
 clicks_a, n_a = 350, 2574
 clicks_b, n_b = 375, 2855
 
-# Расчёт конверсий
 p_a = clicks_a / n_a
 p_b = clicks_b / n_b
 
-# Относительная разница конверсий
 relative_diff = (p_b - p_a) / p_a
 
-# Объединённая доля для статистического теста
 p_pool = (clicks_a + clicks_b) / (n_a + n_b)
 
-# Стандартная ошибка
 se = math.sqrt(p_pool * (1 - p_pool) * (1/n_a + 1/n_b))
 
-# Z-статистика
 z = (p_b - p_a) / se
 
-# P-value двустороннего z-теста
 p_value = math.erfc(abs(z) / math.sqrt(2))
 
 print(f"Конверсия A: {p_a:.2%}")
